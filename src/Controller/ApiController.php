@@ -2,12 +2,117 @@
 
 namespace App\Controller;
 
-use Core\Request;
+use Exception;
+use Config\Request;
+use DB\Primary;
+use DB\Secondary;
+use DB\Doc;
+use DB\Memo;
 use App\Service\Mailer;
 use App\Service\TaskQueue;
 
 class ApiController
 {
+    /**
+     * POST /api/test/postgre
+     */
+    public function testPostgre(Request $request)
+    {
+        try {
+            Primary::conn();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Postgre successfully connected.'
+            ]);
+
+        } catch (Exception $e) {
+            return response()->json(
+                [
+                    'status' => false,
+                    'message' => 'Postgre connection error.',
+                    'error' => $e->getMessage()
+                ],
+                500
+            );
+        }
+    }
+
+    /**
+     * POST /api/test/mysql
+     */
+    public function testMysql(Request $request)
+    {
+        try {
+            Secondary::conn();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Mysql successfully connected.'
+            ]);
+
+        } catch (Exception $e) {
+            return response()->json(
+                [
+                    'status' => false,
+                    'message' => 'Mysql connection error.',
+                    'error' => $e->getMessage()
+                ],
+                500
+            );
+        }
+    }
+
+    /**
+     * POST /api/test/mongodb
+     */
+    public function testMongodb(Request $request)
+    {
+        try {
+            Doc::conn();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'MongoDB successfully connected.'
+            ]);
+
+        } catch (Exception $e) {
+            return response()->json(
+                [
+                    'status' => false,
+                    'message' =>  'MongoDB connection error.',
+                    'error' => $e->getMessage()
+                ],
+                500
+            );
+        }
+    }
+
+    /**
+     * POST /api/test/redis
+     */
+    public function testRedis(Request $request)
+    {
+        try {
+            Memo::conn();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Redis successfully connected.'
+            ]);
+
+        } catch (Exception $e) {
+            return response()->json(
+                [
+                    'status' => false,
+                    'message' =>  'Redis connection error.',
+                    'error' => $e->getMessage()
+                ],
+                500
+            );
+        }
+    }
+
     /**
      * POST /api/test/testMail
      * Uses PHPMailer to send via MailHog (local SMTP on port 1025 by default).
@@ -25,7 +130,11 @@ class ApiController
             ];
             $email = $mailer->send($payload);
 
-            return response()->json(['status' => $email->status, 'message' => $email->message]);
+            if (isset($email->message)) {
+                return response()->json(['status' => $email->status, 'message' => $email->message]);
+            }
+
+            return response()->json($email, 500);
 
         } catch (\Throwable $e) {
             return response()->json(['status' => false, 'message' => 'Send failed: ' . $e->getMessage()], 500);
@@ -47,12 +156,17 @@ class ApiController
             'from_name' => 'Broker',
         ];
 
-        $queue = (new TaskQueue)->set($task, $payload);
+        try {
+            $queue = (new TaskQueue)->set($task, $payload);
 
-        if ($queue->status === false) {
-            return response()->json(['status' => false, 'message' => 'Queue error: ' . $queue->error], 500);
+            if ($queue->status === false) {
+                return response()->json(['status' => false, 'message' => 'Queue error: ' . $queue->error], 500);
+            }
+
+            return response()->json(['status' => $queue->status, 'message' => 'Message queued.']);
+
+        } catch (\Throwable $e) {
+            return response()->json(['status' => false, 'message' => 'Message queue failed: ' . $e->getMessage()], 500);
         }
-
-        return response()->json(['status' => true, 'message' => 'Message queued.']);
     }
 }

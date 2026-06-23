@@ -1,13 +1,13 @@
 <?php
 
-namespace Database\Client;
+namespace DB;
 
-use Database\Engine\Mysql;
+use Config\Storage\Mysql;
 
 /**
  * Class name is customizable
  */
-class SecondaryDB
+class Secondary
 {
     protected object $db;
 

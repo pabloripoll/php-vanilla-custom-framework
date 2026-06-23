@@ -79,21 +79,21 @@ if (! function_exists('env')) {
 if (! function_exists('response')) {
     function response()
     {
-        return new Core\Response;
+        return new Config\Response;
     }
 }
 
 if (! function_exists('view')) {
     function view(string $script, array|object|null $data = null)
     {
-        return (new Core\Response)->resource('view', $script, $data);
+        return (new Config\Response)->resource('view', $script, $data);
     }
 }
 
 if (! function_exists('includes')) {
     function includes(string $script, array|object|null $data = null)
     {
-        return (new Core\Response)->resource('includes', $script, $data);
+        return (new Config\Response)->resource('includes', $script, $data);
     }
 }
 

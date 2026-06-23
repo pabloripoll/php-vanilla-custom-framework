@@ -1,6 +1,6 @@
 <?php
 
-use Core\Route;
+use Config\Route;
 
 // optional global middleware
 //use App\Middleware\GlobalMiddleware;

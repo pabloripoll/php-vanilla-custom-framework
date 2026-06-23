@@ -1,6 +1,6 @@
 <?php
 
-use Core\Route;
+use Config\Route;
 use App\Controller\WebController;
 
 /**

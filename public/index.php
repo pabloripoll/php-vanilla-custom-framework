@@ -9,7 +9,7 @@ if (env('APP_DEBUG') === true) {
     ini_set('display_errors', 1);
 }
 
-use Core\Route;
+use Config\Route;
 
 require dirname(__DIR__) . '/routes/api.php';
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Engine;
+namespace Config\Storage;
 
 use mysqli;
 

@@ -4,9 +4,8 @@
     "autoload": {
         "psr-4": {
             "App\\": "src/",
-            "Core\\": "core/",
-            "DB\\": "database/Client",
-            "Database\\": "database/"
+            "Config\\": "config/",
+            "DB\\": "database/Client/"
         },
         "files": [
             "src/Support/Helper.php"

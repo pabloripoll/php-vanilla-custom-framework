@@ -51,7 +51,7 @@ class TaskQueue
 
         } catch (\Throwable $e) {
             $response = new \stdClass;
-            $response->status = true;
+            $response->status = false;
             $response->error = $e->getMessage();
 
             return $response;

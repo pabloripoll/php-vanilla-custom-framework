@@ -169,6 +169,9 @@ class Mailer
         } catch (PHPMailerException $e) {
             // Transient send error — log and return false so consumer can decide to requeue
             error_log('[Mailer] PHPMailer exception: ' . $e->getMessage());
+
+            $response->error = $e->getMessage();
+
             return $response;
 
         } catch (\Exception $e) {

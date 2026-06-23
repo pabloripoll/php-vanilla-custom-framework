@@ -1,10 +1,10 @@
 <?php
 
-namespace Database\Client;
+namespace DB;
 
-use Database\Engine\Postgre;
+use Config\Storage\Postgre;
 
-class PrimaryDB
+class Primary
 {
     public function __construct()
     {

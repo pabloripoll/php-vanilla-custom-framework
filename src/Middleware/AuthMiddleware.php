@@ -2,7 +2,7 @@
 
 namespace App\Middleware;
 
-use Core\Request;
+use Config\Request;
 
 class AuthMiddleware
 {
