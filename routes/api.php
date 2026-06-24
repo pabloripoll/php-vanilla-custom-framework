@@ -11,7 +11,7 @@ use App\Controller\ApiController;
 Route::post('/api/test/postgre', [ApiController::class, 'testPostgre']);
 Route::post('/api/test/mysql', [ApiController::class, 'testMysql']);
 Route::post('/api/test/mongodb', [ApiController::class, 'testMongodb']);
-Route::post('/api/insert/mongodb', [ApiController::class, 'insertMongodb']);
+Route::post('/api/test/mongodb', [ApiController::class, 'insertMongodb']);
 Route::post('/api/test/redis', [ApiController::class, 'testRedis']);
 
 // Tests mail service
